@@ -1,14 +1,23 @@
 import { useState } from "react";
 
 
-const ClickCount = ({title, msg10}) =>{
-    const [count, setCount] = useState(0);
-    
+const ClickCount = ({title, msg10, hover}) =>{
+    const [count, setCount] = useState(JSON.parse(localStorage.getItem("count")) );
+    const [mouse, setMouse] = useState(false);
+
+    const handleAddOne = () =>{
+        const counter = count +1
+        localStorage.setItem("count", JSON.stringify(counter))
+        setCount(counter)
+        
+    }
+
+
     return (
         <div className="card">
             <p>{title}</p>
-            <button onClick={() => setCount((count) => count + 1)}>
-                count is {count}
+            <button onClick={handleAddOne} onMouseEnter={ () => setMouse(true)} onMouseLeave={() => setMouse(false)} >
+                {mouse == true ? <span>{hover}</span> : <span>count is {count}</span>}
             </button>
             {count >= 10 ? <p>{msg10}</p>: null }
             <p>
